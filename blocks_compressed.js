@@ -2554,7 +2554,7 @@ Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Bloc
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  {
   "type": "variables_get_int",
-  "message0": "%1",
+  "message0": "get int %1",
   "args0": [
     {
       "type": "field_variable",
@@ -2570,7 +2570,7 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  // Block for Panda variable setter.
 {
   "type": "variables_set_int",
-  "message0": "%{BKY_VARIABLES_SET}",
+  "message0": " declare int %1 %2 ",
   "args0": [
     {
       "type": "field_variable",
@@ -2592,7 +2592,7 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  {
   "type": "variables_get_char",
-  "message0": "%1",
+  "message0": " get char %1",
   "args0": [
     {
       "type": "field_variable",
@@ -2608,7 +2608,7 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  // Block for Panda variable setter.
 {
   "type": "variables_set_char",
-  "message0": "%{BKY_VARIABLES_SET}",
+  "message0": "declare char %1  as %2",
   "args0": [
     {
       "type": "field_variable",
@@ -2699,7 +2699,7 @@ Blockly.Extensions.register('changeType', function() {
     console.log(changeEvent.newValue);
     // console.log(this.inputList[0].fieldRow[2].defaultType_=""+changeEvent.newValue);
     // console.log(this.inputList[0].fieldRow[2]=new Blockly.FieldVariable("item","",[changeEvent.newValue+""],""+changeEvent.newValue));
-    // console.log(this.inputList[0].fieldRow[2]);
+     console.log(this.inputList[0].fieldRow[2].generatedOptions_);
     
    }
   });
