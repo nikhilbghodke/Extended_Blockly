@@ -2553,37 +2553,154 @@ Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Bloc
 
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  {
-  "type": "variables_get_panda",
+  "type": "variables_get_int",
   "message0": "%1",
   "args0": [
     {
       "type": "field_variable",
       "name": "VAR",
       "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["Panda"],
-      "defaultType": "Panda",   // Specifies what types to put in the dropdown
+      "variableTypes": ["int"],
+      "defaultType": "int",   // Specifies what types to put in the dropdown
     }
   ],
-  "output": "Panda",    // Returns a value of "Panda"
+  "output": "int",    // Returns a value of "Panda"
 },
 
  // Block for Panda variable setter.
 {
-  "type": "variables_set_panda",
+  "type": "variables_set_int",
   "message0": "%{BKY_VARIABLES_SET}",
   "args0": [
     {
       "type": "field_variable",
       "name": "VAR",
       "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["Panda"]
+      "variableTypes": ["int"],
+      "defaultType": "int", 
     },
     {
       "type": "input_value",
       "name": "VALUE",
-      "check": "Panda"    // Checks that the input value is of type "Panda"
+      "check": "int"    // Checks that the input value is of type "Panda"
     }
   ],
   "previousStatement": null,
   "nextStatement": null,
 }]);
+
+Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
+ {
+  "type": "variables_get_char",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["char"],
+      "defaultType": "char",   // Specifies what types to put in the dropdown
+    }
+  ],
+  "output": "char",    // Returns a value of "Panda"
+},
+
+ // Block for Panda variable setter.
+{
+  "type": "variables_set_char",
+  "message0": "%{BKY_VARIABLES_SET}",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["char"],
+      "defaultType": "char", 
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "char"    // Checks that the input value is of type "Panda"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+}]);
+
+Blockly.Types={};
+Blockly.Types.ChangeType=function onFirstComment(event) {
+  if (event.type == Blockly.Events.CHANGE &&
+      event.element == 'comment' &&
+      !event.oldValue && event.newValue) {
+    alert('Congratulations on creating your first comment!')
+    workspace.removeChangeListener(onFirstComment);
+  }
+}
+
+Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
+ {
+  "type": "variables_get_gen",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["char"],
+      "defaultType": "char",   // Specifies what types to put in the dropdown
+    }
+  ],
+  "output": "char",    // Returns a value of "Panda"
+},
+
+ // Block for Panda variable setter.
+{
+  "type": "variables_set_gen",
+  "message0": "%1 variable name  %2  initial value %3",
+  "colour" : 230,
+  "extensions":["changeType"],
+  "args0": [
+  {
+      "type": "field_dropdown",
+      "name": "types",
+      "options": [
+        [
+          "int",
+          "int"
+        ],
+        [
+          "char",
+          "char"
+        ],
+      ]
+    },
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["char"],
+      "defaultType": "char", 
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "char"    // Checks that the input value is of type "Panda"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+}]);
+
+Blockly.Extensions.register('changeType', function() {
+  // Example validation upon block change:
+  this.setOnChange(function(changeEvent) {
+   if(changeEvent.type=="change"&&changeEvent.name=="types")
+   {
+    console.log(changeEvent.newValue);
+    // console.log(this.inputList[0].fieldRow[2].defaultType_=""+changeEvent.newValue);
+    // console.log(this.inputList[0].fieldRow[2]=new Blockly.FieldVariable("item","",[changeEvent.newValue+""],""+changeEvent.newValue));
+    // console.log(this.inputList[0].fieldRow[2]);
+    
+   }
+  });
+});

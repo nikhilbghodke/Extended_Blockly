@@ -79,8 +79,19 @@
   <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <category name="Typed variable">
+      <category name="Integer">
+      <block type="variables_get_int"></block>
+      <block type="variables_set_int"></block>
+    </category>
+    <category name="Character">
+      <block type="variables_get_char"></block>
+      <block type="variables_set_char"></block>
+    </category>
+    <block type="variables_get_gen"></block>
+    <block type="variables_set_gen"></block> 
+    </category>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
-      <block type="variables_get_panda"></block>
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
