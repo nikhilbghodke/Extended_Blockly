@@ -2582,7 +2582,7 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
     {
       "type": "input_value",
       "name": "VALUE",
-      "check": "int"    // Checks that the input value is of type "Panda"
+      "check": ["int","Number"]    // Checks that the input value is of type "Panda"
     }
   ],
   "previousStatement": null,
@@ -2704,20 +2704,52 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
 }]);
 
 
-Blockly.Types={};
-Blockly.Types.ChangeType=function onFirstComment(event) {
-  if (event.type == Blockly.Events.CHANGE &&
-      event.element == 'comment' &&
-      !event.oldValue && event.newValue) {
-    alert('Congratulations on creating your first comment!')
-    workspace.removeChangeListener(onFirstComment);
-  }
-}
-
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  {
-  "type": "variables_get_gen",
-  "message0": "%1",
+  "type": "variables_set_double",
+  "message0": "change double %1 %2",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["double"],
+      "defaultType": "double",   // Specifies what types to put in the dropdown
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "double"    // Checks that the input value is of type "Panda"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+     // Returns a value of "Panda"
+},
+{
+  "type": "variables_set_float",
+  "message0": "change float %1 %2",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["float"],
+      "defaultType": "float",   // Specifies what types to put in the dropdown
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "float"    // Checks that the input value is of type "Panda"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+     // Returns a value of "Panda"
+},
+{
+  "type": "variables_set_char",
+  "message0": "change char %1 %2",
   "args0": [
     {
       "type": "field_variable",
@@ -2725,38 +2757,6 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
       "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
       "variableTypes": ["char"],
       "defaultType": "char",   // Specifies what types to put in the dropdown
-    }
-  ],
-  "output": "char",    // Returns a value of "Panda"
-},
-
- // Block for Panda variable setter.
-{
-  "type": "variables_set_gen",
-  "message0": "%1 variable name  %2  initial value %3",
-  "colour" : 230,
-  "extensions":["changeType"],
-  "args0": [
-  {
-      "type": "field_dropdown",
-      "name": "types",
-      "options": [
-        [
-          "int",
-          "int"
-        ],
-        [
-          "char",
-          "char"
-        ],
-      ]
-    },
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["char"],
-      "defaultType": "char", 
     },
     {
       "type": "input_value",
@@ -2766,18 +2766,30 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
   ],
   "previousStatement": null,
   "nextStatement": null,
-}]);
+},
 
-Blockly.Extensions.register('changeType', function() {
-  // Example validation upon block change:
-  this.setOnChange(function(changeEvent) {
-   if(changeEvent.type=="change"&&changeEvent.name=="types")
-   {
-    console.log(changeEvent.newValue);
-    // console.log(this.inputList[0].fieldRow[2].defaultType_=""+changeEvent.newValue);
-    // console.log(this.inputList[0].fieldRow[2]=new Blockly.FieldVariable("item","",[changeEvent.newValue+""],""+changeEvent.newValue));
-     console.log(this.inputList[0].fieldRow[2].generatedOptions_);
-    
-   }
-  });
-});
+{
+  "type": "variables_set_int",
+  "message0": "change int %1 %2",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["int"],
+      "defaultType": "int",   // Specifies what types to put in the dropdown
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": ["int", "Number"]    // Checks that the input value is of type "Panda"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+     // Returns a value of "Panda"
+},
+
+]);
+
+
