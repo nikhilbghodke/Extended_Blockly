@@ -342,7 +342,7 @@ Code.renderContent = function() {
   } else if (content.id == 'content_php') {
     Code.attemptCodeGeneration(Blockly.PHP);
   } else if (content.id == 'content_dart') {
-    Code.attemptCodeGeneration(Blockly.Dart);
+    Code.attemptCodeGeneration(Blockly.C);
   } else if (content.id == 'content_lua') {
     Code.attemptCodeGeneration(Blockly.Lua);
   }
@@ -360,6 +360,7 @@ Code.attemptCodeGeneration = function(generator) {
   content.textContent = '';
   if (Code.checkAllGeneratorFunctionsDefined(generator)) {
     var code = generator.workspaceToCode(Code.workspace);
+    console.log(code);
     content.textContent = code;
     // Remove the 'prettyprinted' class, so that Prettify will recalculate.
     content.className = content.className.replace('prettyprinted', '');
