@@ -2553,24 +2553,49 @@ Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Bloc
 Blockly.Extensions.register('verify_int', function() {
   // Example validation upon block change:
   this.setOnChange(function(changeEvent) {
-   var value= Blockly.JavaScript.valueToCode(this, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
-   value=value.replace("(","");
-   value=value.replace(")","");
-   if(value!=null&&Number(value)==value&&(parseInt(value)!=value))
-    this.setWarningText("Values after decimal points will be skipped");
-   else if(value!=null&&Number(value)==value&&(value>2147483647))
-     this.setWarningText("int should be less than "+2147483647);
-   else if(value!=null&&Number(value)==value&&(value<-2147483648))
-     this.setWarningText("int should be greater than -"+2147483648);
-    else
-        this.setWarningText(null);
+    if(changeEvent.type=="change"&&changeEvent.name=="types")
+        {
+            this.getInput("VALUE").removeField("VAR");
+            var a =new Blockly.FieldVariable(null,null, [changeEvent.newValue], changeEvent.newValue, null);
+            this.getInput("VALUE").appendField(a,"VAR");
+        }
+
+   // var value= Blockly.JavaScript.valueToCode(this, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+   // value=value.replace("(","");
+   // value=value.replace(")","");
+   // if(value!=null&&Number(value)==value&&(parseInt(value)!=value))
+   //  this.setWarningText("Values after decimal points will be skipped");
+   // else if(value!=null&&Number(value)==value&&(value>2147483647))
+   //   this.setWarningText("int should be less than "+2147483647);
+   // else if(value!=null&&Number(value)==value&&(value<-2147483648))
+   //   this.setWarningText("int should be greater than -"+2147483648);
+   //  else
+   //      this.setWarningText(null);
   });
 });
-Blockly.Blocks.variables_dec_int = {
+Blockly.Blocks.variables_declare = {
     init: function() {
         this.jsonInit({
-          "message0": " declare int %1 %2 ",
+          "message0": " declare %1 %2 %3",
           "args0": [
+            {
+                  "type": "field_dropdown",
+                  "name": "types",
+                  "options": [
+                    [
+                      "int",
+                      "int"
+                    ],
+                    [
+                      "char",
+                      "char"
+                    ],
+                    [
+                      "float",
+                      "float"
+                    ]
+                  ]
+            },
             {
               "type": "field_variable",
               "name": "VAR",
