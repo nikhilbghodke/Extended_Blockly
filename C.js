@@ -59,8 +59,15 @@ Blockly.C.init = function(a) {
     Blockly.C.variableDB_.setVariableMap(a.getVariableMap());
     for (var b = [], c = Blockly.Variables.allDeveloperVariables(a), d = 0; d < c.length; d++) b.push(Blockly.C.variableDB_.getName(c[d], Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     a = Blockly.Variables.allUsedVarModels(a);
-    for (d = 0; d < a.length; d++) b.push(Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME));
-    b.length && (Blockly.C.definitions_.variables = "var " + b.join(", ") + ";")
+    for (d = 0; d < a.length; d++) b.push([Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME),a[d].type]);
+        console.log(a);
+        console.log(b);
+        var declaration ="";
+
+        for(var z=0;z<b.length;z++)
+            declaration+= b[z][1] +" "+b[z][0]+";";
+        console.log(declaration);
+    b.length && (Blockly.C.definitions_.variables = declaration);
 };
 Blockly.C.finish = function(a) {
     var b = [],
@@ -859,5 +866,12 @@ Blockly.C.variables_set_dynamic = Blockly.C.variables_set;
 
 Blockly.C.variables_declare = function(a) {
       var b = Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_ASSIGNMENT) || "0";
-    return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME) + " = " + b + ";\n"
+    return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME
+        ) + " = " + b + ";\n"
+};
+
+Blockly.C.variables_set_C=Blockly.C.variables_declare;
+
+Blockly.C.variables_get_C = function(a) {
+    return [Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME), Blockly.C.ORDER_ATOMIC]
 };
