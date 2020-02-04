@@ -322,7 +322,7 @@ Blockly.C.controls_if = function(a) {
         c = "";
     Blockly.C.STATEMENT_PREFIX && (c += Blockly.C.injectId(Blockly.C.STATEMENT_PREFIX, a));
     do {
-        var d = Blockly.C.valueToCode(a, "IF" + b, Blockly.C.ORDER_NONE) || "false";
+        var d = Blockly.C.valueToCode(a, "IF" + b, Blockly.C.ORDER_NONE) || "0";
         var e = Blockly.C.statementToCode(a, "DO" + b);
         Blockly.C.STATEMENT_SUFFIX && (e = Blockly.C.prefixLines(Blockly.C.injectId(Blockly.C.STATEMENT_SUFFIX, a), Blockly.C.INDENT) + e);
         c += (0 < b ? " else " : "") + "if (" +
@@ -353,15 +353,15 @@ Blockly.C.logic_operation = function(a) {
         d = Blockly.C.valueToCode(a, "A", c);
     a = Blockly.C.valueToCode(a, "B", c);
     if (d || a) {
-        var e = "&&" == b ? "true" : "false";
+        var e = "&&" == b ? "1" : "0";
         d || (d = e);
         a || (a = e)
-    } else a = d = "false";
+    } else a = d = "0";
     return [d + " " + b + " " + a, c]
 };
 Blockly.C.logic_negate = function(a) {
     var b = Blockly.C.ORDER_LOGICAL_NOT;
-    return ["!" + (Blockly.C.valueToCode(a, "BOOL", b) || "true"), b]
+    return ["!" + (Blockly.C.valueToCode(a, "BOOL", b) || "1"), b]
 };
 Blockly.C.logic_boolean = function(a) {
     return ["TRUE" == a.getFieldValue("BOOL") ? "1" : "0", Blockly.C.ORDER_ATOMIC]
@@ -370,7 +370,7 @@ Blockly.C.logic_null = function(a) {
     return ["NULL", Blockly.C.ORDER_ATOMIC]
 };
 Blockly.C.logic_ternary = function(a) {
-    var b = Blockly.C.valueToCode(a, "IF", Blockly.C.ORDER_CONDITIONAL) || "false",
+    var b = Blockly.C.valueToCode(a, "IF", Blockly.C.ORDER_CONDITIONAL) || "0",
         c = Blockly.C.valueToCode(a, "THEN", Blockly.C.ORDER_CONDITIONAL) || "NULL";
     a = Blockly.C.valueToCode(a, "ELSE", Blockly.C.ORDER_CONDITIONAL) || "NULL";
     return [b + " ? " + c + " : " + a, Blockly.C.ORDER_CONDITIONAL]
@@ -460,7 +460,7 @@ Blockly.C.math_arithmetic = function(a) {
     b = b[1];
     var d = Blockly.C.valueToCode(a, "A", b) || "0";
     a = Blockly.C.valueToCode(a, "B", b) || "0";
-    return c ? [d + c + a, b] : ["Math.pow(" + d + ", " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
+    return c ? [d + c + a, b] : ["pow(" + d + ", " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.math_single = function(a) {
     var b = a.getFieldValue("OP");
@@ -468,7 +468,7 @@ Blockly.C.math_single = function(a) {
     a = "SIN" == b || "COS" == b || "TAN" == b ? Blockly.C.valueToCode(a, "NUM", Blockly.C.ORDER_DIVISION) || "0" : Blockly.C.valueToCode(a, "NUM", Blockly.C.ORDER_NONE) || "0";
     switch (b) {
         case "ABS":
-            var c = "Math.abs(" + a + ")";
+            var c = "abs(" + a + ")";
             break;
         case "ROOT":
             c = "sqrt(" +
@@ -493,28 +493,27 @@ Blockly.C.math_single = function(a) {
             c = "floor(" + a + ")";
             break;
         case "SIN":
-            c = "sin(" + a + " / 180 * Math.PI)";
+            c = "sin(" + a + ")";
             break;
         case "COS":
-            c = "cos(" + a + " / 180 * Math.PI)";
+            c = "cos(" + a + ")";
             break;
         case "TAN":
-            c = "tan(" + a + " / 180 * Math.PI)"
+            c = "tan(" + a + ")"
     }
     if (c) return [c, Blockly.C.ORDER_FUNCTION_CALL];
     switch (b) {
         case "LOG10":
-            c = "Math.log(" + a +
-                ") / Math.log(10)";
+            c = "log(" + a + ") / log(10)";
             break;
         case "ASIN":
-            c = "Math.asin(" + a + ") / Math.PI * 180";
+            c = "asin(" + a + ")";
             break;
         case "ACOS":
-            c = "Math.acos(" + a + ") / Math.PI * 180";
+            c = "acos(" + a + ")";
             break;
         case "ATAN":
-            c = "Math.atan(" + a + ") / Math.PI * 180";
+            c = "atan(" + a + ")";
             break;
         default:
             throw Error("Unknown math operator: " + b);
@@ -525,17 +524,17 @@ Blockly.C.math_constant = function(a) {
     return {
         PI: ["Math.PI", Blockly.C.ORDER_MEMBER],
         E: ["Math.E", Blockly.C.ORDER_MEMBER],
-        GOLDEN_RATIO: ["(1 + Math.sqrt(5)) / 2", Blockly.C.ORDER_DIVISION],
-        SQRT2: ["Math.SQRT2", Blockly.C.ORDER_MEMBER],
-        SQRT1_2: ["Math.SQRT1_2", Blockly.C.ORDER_MEMBER],
+        GOLDEN_RATIO: ["(1 + sqrt(5)) / 2", Blockly.C.ORDER_DIVISION],
+        SQRT2: ["sqrt(2)", Blockly.C.ORDER_MEMBER],
+        SQRT1_2: ["sqrt(1/2)", Blockly.C.ORDER_MEMBER],
         INFINITY: ["Infinity", Blockly.C.ORDER_ATOMIC]
     } [a.getFieldValue("CONSTANT")]
 };
 Blockly.C.math_number_property = function(a) {
     var b = Blockly.C.valueToCode(a, "NUMBER_TO_CHECK", Blockly.C.ORDER_MODULUS) || "0",
         c = a.getFieldValue("PROPERTY");
-    if ("PRIME" == c) return [Blockly.C.provideFunction_("mathIsPrime", ["function " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(n) {", "  // https://en.wikipedia.org/wiki/Primality_test#Naive_methods", "  if (n == 2 || n == 3) {", "    return true;", "  }", "  // False if n is NaN, negative, is 1, or not whole.", "  // And false if n is divisible by 2 or 3.",
-        "  if (isNaN(n) || n <= 1 || n % 1 != 0 || n % 2 == 0 || n % 3 == 0) {", "    return false;", "  }", "  // Check all the numbers of form 6k +/- 1, up to sqrt(n).", "  for (var x = 6; x <= Math.sqrt(n) + 1; x += 6) {", "    if (n % (x - 1) == 0 || n % (x + 1) == 0) {", "      return false;", "    }", "  }", "  return true;", "}"
+    if ("PRIME" == c) return [Blockly.C.provideFunction_("IsPrime", ["int " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(n) {", " if (n <= 1) return false; "," if (n <= 3) return true; ",," if (n%2 == 0 || n%3 == 0) return false;",
+         "  for (int i = 5; i*i <= n; i += 6) {", "    if (n % i == 0 || n % (i +2) == 0) {", "      return false;", "    }", "  }", "  return true;", "}"
     ]) + "(" + b + ")", Blockly.C.ORDER_FUNCTION_CALL];
     switch (c) {
         case "EVEN":
@@ -629,7 +628,7 @@ Blockly.C.math_constrain = function(a) {
     var b = Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_COMMA) || "0",
         c = Blockly.C.valueToCode(a, "LOW", Blockly.C.ORDER_COMMA) || "0";
     a = Blockly.C.valueToCode(a, "HIGH", Blockly.C.ORDER_COMMA) || "Infinity";
-    return ["Math.min(Math.max(" + b + ", " + c + "), " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
+    return ["min(max(" + b + ", " + c + "), " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.math_random_int = function(a) {
     var b = Blockly.C.valueToCode(a, "FROM", Blockly.C.ORDER_COMMA) || "0";
@@ -639,11 +638,11 @@ Blockly.C.math_random_int = function(a) {
     ]) + "(" + b + ", " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.math_random_float = function(a) {
-    return ["Math.random()", Blockly.C.ORDER_FUNCTION_CALL]
+    return ["rand()", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.math_atan2 = function(a) {
     var b = Blockly.C.valueToCode(a, "X", Blockly.C.ORDER_COMMA) || "0";
-    return ["Math.atan2(" + (Blockly.C.valueToCode(a, "Y", Blockly.C.ORDER_COMMA) || "0") + ", " + b + ") / Math.PI * 180", Blockly.C.ORDER_DIVISION]
+    return ["atan2(" + (Blockly.C.valueToCode(a, "Y", Blockly.C.ORDER_COMMA) || "0") + ", " + b + ")", Blockly.C.ORDER_DIVISION]
 };
 Blockly.C.procedures = {};
 Blockly.C.procedures_defreturn = function(a) {
