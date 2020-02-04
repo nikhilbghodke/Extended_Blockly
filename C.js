@@ -364,15 +364,15 @@ Blockly.C.logic_negate = function(a) {
     return ["!" + (Blockly.C.valueToCode(a, "BOOL", b) || "true"), b]
 };
 Blockly.C.logic_boolean = function(a) {
-    return ["TRUE" == a.getFieldValue("BOOL") ? "true" : "false", Blockly.C.ORDER_ATOMIC]
+    return ["TRUE" == a.getFieldValue("BOOL") ? "1" : "0", Blockly.C.ORDER_ATOMIC]
 };
 Blockly.C.logic_null = function(a) {
-    return ["null", Blockly.C.ORDER_ATOMIC]
+    return ["NULL", Blockly.C.ORDER_ATOMIC]
 };
 Blockly.C.logic_ternary = function(a) {
     var b = Blockly.C.valueToCode(a, "IF", Blockly.C.ORDER_CONDITIONAL) || "false",
-        c = Blockly.C.valueToCode(a, "THEN", Blockly.C.ORDER_CONDITIONAL) || "null";
-    a = Blockly.C.valueToCode(a, "ELSE", Blockly.C.ORDER_CONDITIONAL) || "null";
+        c = Blockly.C.valueToCode(a, "THEN", Blockly.C.ORDER_CONDITIONAL) || "NULL";
+    a = Blockly.C.valueToCode(a, "ELSE", Blockly.C.ORDER_CONDITIONAL) || "NULL";
     return [b + " ? " + c + " : " + a, Blockly.C.ORDER_CONDITIONAL]
 };
 Blockly.C.loops = {};
@@ -381,16 +381,16 @@ Blockly.C.controls_repeat_ext = function(a) {
         c = Blockly.C.statementToCode(a, "DO");
     c = Blockly.C.addLoopTrap(c, a);
     a = "";
-    var d = Blockly.C.variableDB_.getDistinctName("count", Blockly.VARIABLE_CATEGORY_NAME),
+    var d = Blockly.C.variableDB_.getDistinctName("i", Blockly.VARIABLE_CATEGORY_NAME),
         e = b;
     b.match(/^\w+$/) || Blockly.isNumber(b) || (e = Blockly.C.variableDB_.getDistinctName("repeat_end", Blockly.VARIABLE_CATEGORY_NAME),
         a += "var " + e + " = " + b + ";\n");
-    return a + ("for (var " + d + " = 0; " + d + " < " + e + "; " + d + "++) {\n" + c + "}\n")
+    return a + ("for (int " + d + " = 0; " + d + " < " + e + "; " + d + "++) {\n" + c + "}\n")
 };
 Blockly.C.controls_repeat = Blockly.C.controls_repeat_ext;
 Blockly.C.controls_whileUntil = function(a) {
     var b = "UNTIL" == a.getFieldValue("MODE"),
-        c = Blockly.C.valueToCode(a, "BOOL", b ? Blockly.C.ORDER_LOGICAL_NOT : Blockly.C.ORDER_NONE) || "false",
+        c = Blockly.C.valueToCode(a, "BOOL", b ? Blockly.C.ORDER_LOGICAL_NOT : Blockly.C.ORDER_NONE) || "0",
         d = Blockly.C.statementToCode(a, "DO");
     d = Blockly.C.addLoopTrap(d, a);
     b && (c = "!" + c);
@@ -471,35 +471,35 @@ Blockly.C.math_single = function(a) {
             var c = "Math.abs(" + a + ")";
             break;
         case "ROOT":
-            c = "Math.sqrt(" +
+            c = "sqrt(" +
                 a + ")";
             break;
         case "LN":
-            c = "Math.log(" + a + ")";
+            c = "log(" + a + ")";
             break;
         case "EXP":
-            c = "Math.exp(" + a + ")";
+            c = "exp(" + a + ")";
             break;
         case "POW10":
-            c = "Math.pow(10," + a + ")";
+            c = "pow(10," + a + ")";
             break;
         case "ROUND":
-            c = "Math.round(" + a + ")";
+            c = "round(" + a + ")";
             break;
         case "ROUNDUP":
-            c = "Math.ceil(" + a + ")";
+            c = "ceil(" + a + ")";
             break;
         case "ROUNDDOWN":
-            c = "Math.floor(" + a + ")";
+            c = "floor(" + a + ")";
             break;
         case "SIN":
-            c = "Math.sin(" + a + " / 180 * Math.PI)";
+            c = "sin(" + a + " / 180 * Math.PI)";
             break;
         case "COS":
-            c = "Math.cos(" + a + " / 180 * Math.PI)";
+            c = "cos(" + a + " / 180 * Math.PI)";
             break;
         case "TAN":
-            c = "Math.tan(" + a + " / 180 * Math.PI)"
+            c = "tan(" + a + " / 180 * Math.PI)"
     }
     if (c) return [c, Blockly.C.ORDER_FUNCTION_CALL];
     switch (b) {
