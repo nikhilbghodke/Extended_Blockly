@@ -856,3 +856,8 @@ Blockly.C.variables_set = function(a) {
 Blockly.C.variablesDynamic = {};
 Blockly.C.variables_get_dynamic = Blockly.C.variables_get;
 Blockly.C.variables_set_dynamic = Blockly.C.variables_set;
+
+Blockly.C.variables_declare = function(a) {
+      var b = Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_ASSIGNMENT) || "0";
+    return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME) + " = " + b + ";\n"
+};

@@ -2555,22 +2555,19 @@ Blockly.Extensions.register('verify_int', function() {
   this.setOnChange(function(changeEvent) {
     if(changeEvent.type=="change"&&changeEvent.name=="types")
         {
-            this.getInput("VALUE").removeField("VAR");
-            var a =new Blockly.FieldVariable(null,null, [changeEvent.newValue], changeEvent.newValue, null);
-            this.getInput("VALUE").appendField(a,"VAR");
+            if(this.getInput("VALUE")!=null)
+            {
+                this.getInput("VALUE").removeField("VAR");
+                var a =new Blockly.FieldVariable(null,null, [changeEvent.newValue], changeEvent.newValue, null);
+                this.getInput("VALUE").appendField(a,"VAR");
+                //this.getInput("VALUE").setCheck([changeEvent.newValue]);
+            }
+            else {
+                var a =new Blockly.FieldVariable(null,null, [changeEvent.newValue], changeEvent.newValue, null);
+                this.getInput("").appendField(a,"VAR");
+               // this.setOutput(true, changeEvent.newValue);
+            }
         }
-
-   // var value= Blockly.JavaScript.valueToCode(this, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
-   // value=value.replace("(","");
-   // value=value.replace(")","");
-   // if(value!=null&&Number(value)==value&&(parseInt(value)!=value))
-   //  this.setWarningText("Values after decimal points will be skipped");
-   // else if(value!=null&&Number(value)==value&&(value>2147483647))
-   //   this.setWarningText("int should be less than "+2147483647);
-   // else if(value!=null&&Number(value)==value&&(value<-2147483648))
-   //   this.setWarningText("int should be greater than -"+2147483648);
-   //  else
-   //      this.setWarningText(null);
   });
 });
 Blockly.Blocks.variables_declare = {
@@ -2606,7 +2603,6 @@ Blockly.Blocks.variables_declare = {
             {
               "type": "input_value",
               "name": "VALUE",
-              "check": ["int","Number"]    // Checks that the input value is of type "Panda"
             }
           ],
           "previousStatement": null,
@@ -2619,8 +2615,26 @@ Blockly.Blocks.variables_declare = {
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
  {
   "type": "variables_get_int",
-  "message0": "get int %1",
+  "message0": "get %1 %2",
   "args0": [
+  {
+                  "type": "field_dropdown",
+                  "name": "types",
+                  "options": [
+                    [
+                      "int",
+                      "int"
+                    ],
+                    [
+                      "char",
+                      "char"
+                    ],
+                    [
+                      "float",
+                      "float"
+                    ]
+                  ]
+            },
     {
       "type": "field_variable",
       "name": "VAR",
@@ -2629,194 +2643,35 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
       "defaultType": "int",   // Specifies what types to put in the dropdown
     }
   ],
-  "output": "int",    // Returns a value of "Panda"
+  "output": "int",
+  "extensions":["verify_int"],    // Returns a value of "Panda"
 },
 
  ]);
 
 Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
- {
-  "type": "variables_get_char",
-  "message0": " get char %1",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["char"],
-      "defaultType": "char",   // Specifies what types to put in the dropdown
-    }
-  ],
-  "output": "char",    // Returns a value of "Panda"
-},
-
- // Block for Panda variable setter.
-{
-  "type": "variables_dec_char",
-  "message0": "declare char %1  as %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["char"],
-      "defaultType": "char", 
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "char"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-}]);
-
-Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
- {
-  "type": "variables_get_float",
-  "message0": " get float %1",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["float"],
-      "defaultType": "float",   // Specifies what types to put in the dropdown
-    }
-  ],
-  "output": "float",    // Returns a value of "Panda"
-},
-
- // Block for Panda variable setter.
-{
-  "type": "variables_dec_float",
-  "message0": "declare float %1  as %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["float"],
-      "defaultType": "float", 
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "float"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-}]);
-
-Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
- {
-  "type": "variables_get_double",
-  "message0": " get double %1",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["double"],
-      "defaultType": "double",   // Specifies what types to put in the dropdown
-    }
-  ],
-  "output": "double",    // Returns a value of "Panda"
-},
-
- // Block for Panda variable setter.
-{
-  "type": "variables_dec_double",
-  "message0": "declare double %1  as %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["double"],
-      "defaultType": "double", 
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "double"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-}]);
-
-
-Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
- {
-  "type": "variables_set_double",
-  "message0": "change double %1 %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["double"],
-      "defaultType": "double",   // Specifies what types to put in the dropdown
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "double"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-     // Returns a value of "Panda"
-},
-{
-  "type": "variables_set_float",
-  "message0": "change float %1 %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["float"],
-      "defaultType": "float",   // Specifies what types to put in the dropdown
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "float"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-     // Returns a value of "Panda"
-},
-{
-  "type": "variables_set_char",
-  "message0": "change char %1 %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-      "variableTypes": ["char"],
-      "defaultType": "char",   // Specifies what types to put in the dropdown
-    },
-    {
-      "type": "input_value",
-      "name": "VALUE",
-      "check": "char"    // Checks that the input value is of type "Panda"
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-},
-
 {
   "type": "variables_set_int",
-  "message0": "change int %1 %2",
+  "message0": "change int %1 %2 %3",
   "args0": [
+       {
+            "type": "field_dropdown",
+            "name": "types",
+            "options": [
+                [
+                    "int",
+                    "int"
+                        ],
+                        [
+                          "char",
+                          "char"
+                        ],
+                        [
+                          "float",
+                          "float"
+                        ]
+                      ]
+     },
     {
       "type": "field_variable",
       "name": "VAR",
@@ -2826,8 +2681,7 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
     },
     {
       "type": "input_value",
-      "name": "VALUE",
-      "check": ["int", "Number"]    // Checks that the input value is of type "Panda"
+      "name": "VALUE",    // Checks that the input value is of type "Panda"
     }
   ],
   "previousStatement": null,
@@ -2835,7 +2689,6 @@ Blockly.defineBlocksWithJsonArray([ // Block for Panda variable getter.
   "extensions":["verify_int"],
      // Returns a value of "Panda"
 },
-
 ]);
 
 
