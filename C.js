@@ -59,9 +59,19 @@ Blockly.C.init = function(a) {
     Blockly.C.variableDB_.setVariableMap(a.getVariableMap());
     for (var b = [], c = Blockly.Variables.allDeveloperVariables(a), d = 0; d < c.length; d++) b.push(Blockly.C.variableDB_.getName(c[d], Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     a = Blockly.Variables.allUsedVarModels(a);
-    for (d = 0; d < a.length; d++) b.push([Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME),a[d].type]);
+    var mapVar=[];
+    for (d = 0; d < a.length; d++) 
+        {
+            if(mapVar[a[d].type]==undefined)
+                mapVar[a[d].type]=[Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME)];
+            else
+                mapVar[a[d].type].push(Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME));
+            b.push([Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME),a[d].type]);
+        }
+
         console.log(a);
         console.log(b);
+        console.log(mapVar);
         var declaration ="";
 
         for(var z=0;z<b.length;z++)
@@ -70,6 +80,7 @@ Blockly.C.init = function(a) {
         
     b.length && (Blockly.C.definitions_.variables = declaration);
 };
+
 Blockly.C.finish = function(a) {
     var b = [],
         c;
@@ -881,3 +892,19 @@ Blockly.C.pointers_declare=Blockly.C.variables_declare;
 Blockly.C.pointers_get_C=Blockly.C.variables_get_C;
 
 Blockly.C.pointers_set_C=Blockly.C.variables_set_C;
+
+Blockly.C.valueAt = function(block) {
+  var value_valueof = Blockly.C.valueToCode(block, 'valueOf', Blockly.C.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = '*'+value_valueof;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.C.ORDER_NONE];
+};
+
+Blockly.C.addressOf = function(block) {
+  var value_valueof = Blockly.C.valueToCode(block, 'valueOf', Blockly.C.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = '&'+value_valueof;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.C.ORDER_NONE];
+};

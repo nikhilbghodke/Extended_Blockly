@@ -2715,9 +2715,9 @@ Blockly.Blocks.pointers_get_C = {
               "type": "field_variable",
               "name": "VAR",
               "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-              "variableTypes": ["int"],
-              "defaultType": "int",   // Specifies what types to put in the dropdown
-            }
+              "variableTypes": ["int *"],
+              "defaultType": "int *",
+                 }
           ],
           "output": "int",
           
@@ -2747,8 +2747,8 @@ Blockly.Blocks.pointers_set_C = {
                       "type": "field_variable",
                       "name": "VAR",
                       "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-                      "variableTypes": ["int"],
-                      "defaultType": "int",   // Specifies what types to put in the dropdown
+                      "variableTypes": ["int *"],
+                      "defaultType": "int *",   // Specifies what types to put in the dropdown
                     },
                     {
                       "type": "input_value",
@@ -2761,3 +2761,30 @@ Blockly.Blocks.pointers_set_C = {
     },
     onchange: changeVariables
 }
+
+
+Blockly.Blocks['valueAt'] = {
+  init: function() {
+    this.appendValueInput("valueOf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("* ");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['addressOf'] = {
+  init: function() {
+    this.appendValueInput("valueOf")
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("& ");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
