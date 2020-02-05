@@ -67,6 +67,7 @@ Blockly.C.init = function(a) {
         for(var z=0;z<b.length;z++)
             declaration+= b[z][1] +" "+b[z][0]+";";
         console.log(declaration);
+        
     b.length && (Blockly.C.definitions_.variables = declaration);
 };
 Blockly.C.finish = function(a) {
@@ -874,3 +875,9 @@ Blockly.C.variables_set_C=Blockly.C.variables_declare;
 Blockly.C.variables_get_C = function(a) {
     return [Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME), Blockly.C.ORDER_ATOMIC]
 };
+
+Blockly.C.pointers_declare=Blockly.C.variables_declare;
+
+Blockly.C.pointers_get_C=Blockly.C.variables_get_C;
+
+Blockly.C.pointers_set_C=Blockly.C.variables_set_C;

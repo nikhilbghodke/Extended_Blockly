@@ -1445,7 +1445,7 @@ Blockly.Blocks.procedures_defnoreturn = {
     init: function() {
         var a = new Blockly.FieldTextInput("", Blockly.Procedures.rename);
         a.setSpellcheck(!1);
-        this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE).appendField(a, "NAME").appendField("", "PARAMS");
+        this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE).appendField(a, "NAME").appendField("", "PARAMS").appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types");
         this.setMutator(new Blockly.Mutator(["procedures_mutatorarg"]));
         (this.workspace.options.comments || this.workspace.options.parentWorkspace && this.workspace.options.parentWorkspace.options.comments) && Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT && this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
         this.setStyle("procedure_blocks");
@@ -2552,8 +2552,11 @@ Blockly.Constants.VariablesDynamic.DELETE_OPTION_CALLBACK_FACTORY = function(a) 
 Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Blockly.Constants.VariablesDynamic.CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN);
 var changeVariables=function(changeEvent){
         var newValue=this.getFieldValue("types");
-         if(changeEvent.type=="change"&&changeEvent.name=="types")
+         if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers"))
         {
+                if(this.getFieldValue("pointers"))
+                    newValue+= " "+this.getFieldValue("pointers");
+                //console.log(newValue);
                 if(this.getInput("VALUE")!=null)
                 {
                     this.getInput("VALUE").removeField("VAR");
@@ -2656,4 +2659,105 @@ Blockly.Blocks.variables_set_C = {
     onchange: changeVariables
 }
 
+Blockly.Types.pointers=[["*","*"],["**","**"],["***","***"],["****","****"]];
 
+Blockly.Blocks.pointers_declare = {
+    init: function() {
+        this.jsonInit({
+          "message0": " declare  pointer %1 %2 %3 %4",
+          "args0": [
+            {
+                  "type": "field_dropdown",
+                  "name": "types",
+                  "options": Blockly.Types.C_DataTypes,
+            },
+            {
+                  "type": "field_dropdown",
+                  "name": "pointers",
+                  "options": Blockly.Types.pointers,
+            },
+            {
+              "type": "field_variable",
+              "name": "VAR",
+              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+              "variableTypes": ["int *"],
+              "defaultType": "int *", 
+            },
+            {
+              "type": "input_value",
+              "name": "VALUE",
+            }
+          ],
+          "previousStatement": null,
+          "nextStatement": null,
+        });
+    },
+    onchange: changeVariables
+};
+
+Blockly.Blocks.pointers_get_C = {
+    init: function() {
+        this.jsonInit(
+         {
+          "message0": "get %1 %2 %3",
+          "args0": [
+          {
+                          "type": "field_dropdown",
+                          "name": "types",
+                          "options": Blockly.Types.C_DataTypes,
+            },
+            {
+                  "type": "field_dropdown",
+                  "name": "pointers",
+                  "options": Blockly.Types.pointers,
+            },
+            {
+              "type": "field_variable",
+              "name": "VAR",
+              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+              "variableTypes": ["int"],
+              "defaultType": "int",   // Specifies what types to put in the dropdown
+            }
+          ],
+          "output": "int",
+          
+        });
+
+    },
+    onchange: changeVariables
+}
+
+Blockly.Blocks.pointers_set_C = {
+    init: function() {
+        this.jsonInit(
+                {
+                  "message0": "change %1 %2 %3 %4",
+                  "args0": [
+                       {
+                            "type": "field_dropdown",
+                            "name": "types",
+                            "options": Blockly.Types.C_DataTypes,
+                     },
+                    {
+                            "type": "field_dropdown",
+                            "name": "pointers",
+                            "options": Blockly.Types.pointers,
+                    },
+                    {
+                      "type": "field_variable",
+                      "name": "VAR",
+                      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+                      "variableTypes": ["int"],
+                      "defaultType": "int",   // Specifies what types to put in the dropdown
+                    },
+                    {
+                      "type": "input_value",
+                      "name": "VALUE",    // Checks that the input value is of type "Panda"
+                    }
+                  ],
+                  "previousStatement": null,
+                  "nextStatement": null,
+                });
+    },
+    onchange: changeVariables
+}
