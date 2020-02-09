@@ -68,9 +68,15 @@ Blockly.C.init = function(a) {
                 mapVar[a[d].type].push(Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME));
             b.push([Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME),a[d].type]);
         }
-
+    var dec="";
+    Object.keys(mapVar).forEach((key,index)=>{
+        dec+= key+" "+mapVar[key].join(",")+";\n";
+        // Object.keys(mapVar[key]).forEach((key1,index1)={
+        //     console.log(key, mapVar[key][key1]);
+        // });
+    });
         console.log(a);
-        console.log(b);
+        console.log(dec);
         console.log(mapVar);
         var declaration ="";
 
@@ -78,7 +84,7 @@ Blockly.C.init = function(a) {
             declaration+= b[z][1] +" "+b[z][0]+";";
         console.log(declaration);
         
-    b.length && (Blockly.C.definitions_.variables = declaration);
+    b.length && (Blockly.C.definitions_.variables = dec);
 };
 
 Blockly.C.finish = function(a) {

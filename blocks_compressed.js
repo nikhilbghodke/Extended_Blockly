@@ -2555,7 +2555,7 @@ var changeVariables=function(changeEvent){
          if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers"))
         {
                 if(this.getFieldValue("pointers"))
-                    newValue+= " "+this.getFieldValue("pointers");
+                    newValue+=this.getFieldValue("pointers");
                 //console.log(newValue);
                 if(this.getInput("VALUE")!=null)
                 {
