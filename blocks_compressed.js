@@ -2876,3 +2876,17 @@ Blockly.Blocks.array_get={
 	  },
 	onchange: arrOnChange,
 };
+
+Blockly.Blocks.array_get_baseAddress={
+	init: function() {
+	    this.appendDummyInput()
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
+	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	    this.setOutput(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: arrOnChange,
+};

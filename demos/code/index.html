@@ -84,14 +84,16 @@
       <block type="variables_declare"></block>
       <block type="variables_get_C"></block>
       <block type="variables_set_C"></block>
+      <label text="Array"></label>
+      <block type="array"></block>
+      <block type="array_get"></block>
+      <block type="array_get_baseAddress"></block>
       <label text="Pointers"></label>
       <block type="pointers_declare"></block>
       <block type="pointers_get_C"></block>
       <block type="pointers_set_C"></block>
       <block type="valueAt"></block>
       <block type="addressOf"></block>
-      <block type="array"></block>
-      <block type="array_get"></block>
     </category>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
@@ -314,7 +316,22 @@
         <mutation items="0"></mutation>
       </block>
       <block type="lists_create_with"></block>
-      <block type="lists_length"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">5</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="lists_length" id="c$k!8}lQgwql[0hjd?p." x="88" y="137">
+    	<value name="VALUE">
+      		<block type="array_get_baseAddress" id="Y#l$xL$F0jzhQu04@gIg">
+        		<field name="types">int</field>
+        		<field name="dimension">1</field>
+        		<field name="VAR" id="Wz=_Oc*cbUlKT~n|9K9y" variabletype="int[]">item</field>
+      		</block>
+    	</value>
+  	 </block>
       <block type="lists_isEmpty"></block>
       <block type="lists_indexOf">
         <value name="VALUE">

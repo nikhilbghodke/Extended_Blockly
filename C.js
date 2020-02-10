@@ -170,18 +170,20 @@ Blockly.C.lists_create_with = function(a) {
     return ["{" + b.join(", ") + "}", Blockly.C.ORDER_ATOMIC]
 };
 Blockly.C.lists_repeat = function(a) {
-    console.log(this.parentBlock_.getFieldValue("types"));
-    var b = Blockly.C.provideFunction_("listsRepeat", ["function " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(value, n) {", "  var array = [];", "  for (int i = 0; i < n; i++) {", "    array[i] = value;", "  }", "  return array;", "}"]),
-        c = Blockly.C.valueToCode(a, "ITEM", Blockly.C.ORDER_COMMA) || "null";
-    a = Blockly.C.valueToCode(a, "NUM", Blockly.C.ORDER_COMMA) || "0";
-    return [b + "(" + c + ", " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
+    //var b = Blockly.C.provideFunction_("listsRepeat", ["function " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(value, n) {", "  var array = [];", "  for (int i = 0; i < n; i++) {", "    array[i] = value;", "  }", "  return array;", "}"]),
+       var c = Blockly.C.valueToCode(a, "ITEM", Blockly.C.ORDER_COMMA) || "0";
+   var n= Blockly.C.valueToCode(a, "NUM", Blockly.C.ORDER_COMMA) || "0";
+    return ["{[0..." + n + "]=" + c + "}", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.lists_length = function(a) {
-    
-    return [(Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_MEMBER) || "[]") + ".length", Blockly.C.ORDER_MEMBER]
+    var b=Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_MEMBER)|| "[]";
+        var code = "sizeOf("+b+")/sizeOf("+b+"[0])"
+    return [code, Blockly.C.ORDER_MEMBER]
 };
 Blockly.C.lists_isEmpty = function(a) {
-    return ["!" + (Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_MEMBER) || "[]") + ".length", Blockly.C.ORDER_LOGICAL_NOT]
+    var b=Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_MEMBER)|| "[]";
+    var code = "((sizeOf("+b+")/sizeOf("+b+"[0]))==0)"
+    return [code, Blockly.C.ORDER_LOGICAL_NOT]
 };
 Blockly.C.lists_indexOf = function(a) {
     var b = "FIRST" == a.getFieldValue("END") ? "indexOf" : "lastIndexOf",
@@ -937,3 +939,7 @@ Blockly.C.array_get=function(a){
     }
     return [code, Blockly.C.ORDER_ATOMIC];
 }
+
+Blockly.C.array_get_baseAddress = function(a) {
+    return [Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME), Blockly.C.ORDER_ATOMIC]
+};
