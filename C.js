@@ -69,11 +69,11 @@ Blockly.C.init = function(a) {
             b.push([Blockly.C.variableDB_.getName(a[d].getId(), Blockly.VARIABLE_CATEGORY_NAME),a[d].type]);
         }
     var dec="";
+    //console.log(mapVar);
+
     Object.keys(mapVar).forEach((key,index)=>{
+        if(key.indexOf("[]")==-1)
         dec+= key+" "+mapVar[key].join(",")+";\n";
-        // Object.keys(mapVar[key]).forEach((key1,index1)={
-        //     console.log(key, mapVar[key][key1]);
-        // });
     });
         console.log(a);
         console.log(dec);
@@ -167,15 +167,17 @@ Blockly.C.lists_create_empty = function(a) {
 };
 Blockly.C.lists_create_with = function(a) {
     for (var b = Array(a.itemCount_), c = 0; c < a.itemCount_; c++) b[c] = Blockly.C.valueToCode(a, "ADD" + c, Blockly.C.ORDER_COMMA) || "null";
-    return ["[" + b.join(", ") + "]", Blockly.C.ORDER_ATOMIC]
+    return ["{" + b.join(", ") + "}", Blockly.C.ORDER_ATOMIC]
 };
 Blockly.C.lists_repeat = function(a) {
-    var b = Blockly.C.provideFunction_("listsRepeat", ["function " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(value, n) {", "  var array = [];", "  for (var i = 0; i < n; i++) {", "    array[i] = value;", "  }", "  return array;", "}"]),
+    console.log(this.parentBlock_.getFieldValue("types"));
+    var b = Blockly.C.provideFunction_("listsRepeat", ["function " + Blockly.C.FUNCTION_NAME_PLACEHOLDER_ + "(value, n) {", "  var array = [];", "  for (int i = 0; i < n; i++) {", "    array[i] = value;", "  }", "  return array;", "}"]),
         c = Blockly.C.valueToCode(a, "ITEM", Blockly.C.ORDER_COMMA) || "null";
     a = Blockly.C.valueToCode(a, "NUM", Blockly.C.ORDER_COMMA) || "0";
     return [b + "(" + c + ", " + a + ")", Blockly.C.ORDER_FUNCTION_CALL]
 };
 Blockly.C.lists_length = function(a) {
+    
     return [(Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_MEMBER) || "[]") + ".length", Blockly.C.ORDER_MEMBER]
 };
 Blockly.C.lists_isEmpty = function(a) {
@@ -914,3 +916,24 @@ Blockly.C.addressOf = function(block) {
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.C.ORDER_NONE];
 };
+
+Blockly.C.array_declare=Blockly.C.variables_declare;
+
+Blockly.C.array=function(a) {
+      var b = Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_ASSIGNMENT) || "{0}";
+      var c="";
+      for(var i=1;i<=a.getFieldValue("dimension");i++)
+        c+="["+a.getFieldValue("size"+i)+"]";
+    return a.getFieldValue("types")+" "+Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME) 
+    +" "+c+ " = " + b + ";\n"
+};
+
+Blockly.C.array_get=function(a){
+    var code=Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME);
+    var dimension= a.getFieldValue("dimension");
+    for(var i=1;i<=dimension;i++)
+    {
+        code+="["+a.getFieldValue("size"+i)+"]";
+    }
+    return [code, Blockly.C.ORDER_ATOMIC];
+}

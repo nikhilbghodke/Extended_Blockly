@@ -2550,12 +2550,16 @@ Blockly.Constants.VariablesDynamic.DELETE_OPTION_CALLBACK_FACTORY = function(a) 
     }
 };
 Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Blockly.Constants.VariablesDynamic.CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN);
+
+
 var changeVariables=function(changeEvent){
         var newValue=this.getFieldValue("types");
-         if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers"))
+         if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers" || changeEvent.name=="dimension"))
         {
                 if(this.getFieldValue("pointers"))
                     newValue+=this.getFieldValue("pointers");
+                if(this.getFieldValue("dimension"))
+                	newValue+=("[]").repeat(this.getFieldValue("dimension"));
                 //console.log(newValue);
                 if(this.getInput("VALUE")!=null)
                 {
@@ -2628,6 +2632,7 @@ Blockly.Blocks.variables_get_C = {
     },
     onchange: changeVariables
 }
+
 
 Blockly.Blocks.variables_set_C = {
     init: function() {
@@ -2763,6 +2768,8 @@ Blockly.Blocks.pointers_set_C = {
 }
 
 
+
+
 Blockly.Blocks['valueAt'] = {
   init: function() {
     this.appendValueInput("valueOf")
@@ -2787,4 +2794,85 @@ Blockly.Blocks['addressOf'] = {
  this.setTooltip("");
  this.setHelpUrl("");
   }
+};
+
+var arrOnChange= function (changeEvent){
+		var newValue=this.getFieldValue("types");
+         if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers" || changeEvent.name=="dimension"))
+        {
+                if(this.getFieldValue("pointers"))
+                    newValue+=this.getFieldValue("pointers");
+                if(this.getFieldValue("dimension"))
+                	newValue+=("[]").repeat(this.getFieldValue("dimension"));
+                //console.log(newValue);
+                if(this.getInput("VALUE")!=null)
+                {
+                    this.getInput("VALUE").removeField("VAR");
+                    var a =new Blockly.FieldVariable(null,null, [newValue],newValue, null);
+                    this.getInput("VALUE").insertFieldAt(2,a,"VAR");
+                    //this.getInput("VALUE").setCheck([changeEvent.newValue]);
+                }
+                else {
+                    this.getInput("").removeField("VAR");
+                    var a =new Blockly.FieldVariable(null,null, [newValue], newValue, null);
+                    this.getInput("").appendField(a,"VAR");
+                   // this.setOutput(true, changeEvent.newValue);
+                }
+        }
+
+
+        if(changeEvent.type=="change"&&changeEvent.name=="dimension")
+        {
+        	var dimension= this.getFieldValue("dimension");
+        	console.log(changeEvent);
+        	var size="size";
+        	var input=this.getInput("VALUE");
+        	if(input==null)
+        		input=this.getInput("");
+        	for(var i=1;i<=3;i++)
+        		input.removeField(size+i);
+        	var i=0;
+        	for( i=1;i<=dimension;i++)
+				input.insertFieldAt(2+i,new Blockly.FieldNumber(0, 0, Infinity, 1), size+i);
+			for( ;i<=3;i++)
+				input.insertFieldAt(2+i,new Blockly.FieldLabelSerializable(""), size+i);
+        }
+
+
+}
+Blockly.Blocks.array={
+	init: function() {
+	    this.appendValueInput("VALUE")
+	        .setCheck(null)
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
+	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	        .appendField(new Blockly.FieldNumber(5, 1, Infinity, 1), "size1")
+	        .appendField(new Blockly.FieldLabelSerializable(""), "size2")
+	        .appendField(new Blockly.FieldLabelSerializable(""), "size3");
+	    this.setPreviousStatement(true, null);
+    	this.setNextStatement(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: arrOnChange,
+};
+
+
+Blockly.Blocks.array_get={
+	init: function() {
+	    this.appendDummyInput()
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
+	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	        .appendField(new Blockly.FieldNumber(0, 0, Infinity, 1), "size1")
+	        .appendField(new Blockly.FieldLabelSerializable(""), "size2")
+	        .appendField(new Blockly.FieldLabelSerializable(""), "size3");
+	    this.setOutput(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: arrOnChange,
 };
