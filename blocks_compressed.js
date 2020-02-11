@@ -2578,159 +2578,223 @@ var changeVariables=function(changeEvent){
     }
 Blockly.Types={};
 Blockly.Types.C_DataTypes=[["int","int"], ["char","char"],["float","float"],["double","double"],["long","long"],["short","short"]];
-Blockly.Blocks.variables_declare = {
-    init: function() {
-        this.jsonInit({
-          "message0": " declare %1 %2 %3",
-          "args0": [
-            {
-                  "type": "field_dropdown",
-                  "name": "types",
-                  "options": Blockly.Types.C_DataTypes,
-            },
-            {
-              "type": "field_variable",
-              "name": "VAR",
-              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-              "variableTypes": ["int"],
-              "defaultType": "int", 
-            },
-            {
-              "type": "input_value",
-              "name": "VALUE",
-            }
-          ],
-          "previousStatement": null,
-          "nextStatement": null,
-        });
-    },
-    onchange: changeVariables
+// Blockly.Blocks.variables_declare = {
+//     init: function() {
+//         this.jsonInit({
+//           "message0": " declare %1 %2 %3",
+//           "args0": [
+//             {
+//                   "type": "field_dropdown",
+//                   "name": "types",
+//                   "options": Blockly.Types.C_DataTypes,
+//             },
+//             {
+//               "type": "field_variable",
+//               "name": "VAR",
+//               "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+//               "variableTypes": ["int"],
+//               "defaultType": "int", 
+//             },
+//             {
+//               "type": "input_value",
+//               "name": "VALUE",
+//             }
+//           ],
+//           "previousStatement": null,
+//           "nextStatement": null,
+//         });
+//     },
+//     onchange: changeVariables
+// };
+Blockly.Blocks.variableC_set={
+	init: function() {
+	    this.appendValueInput("VALUE")
+	        .setCheck(null)
+	        .appendField("declare variable of  type:")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(" name")
+	        .appendField(new Blockly.FieldVariable(null,null,["int"],"int",null), "VAR")
+	    this.setPreviousStatement(true, null);
+    	this.setNextStatement(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: changeVariables,
 };
-Blockly.Blocks.variables_get_C = {
-    init: function() {
-        this.jsonInit(
-         {
-          "message0": "get %1 %2",
-          "args0": [
-          {
-                          "type": "field_dropdown",
-                          "name": "types",
-                          "options": Blockly.Types.C_DataTypes,
-                    },
-            {
-              "type": "field_variable",
-              "name": "VAR",
-              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-              "variableTypes": ["int"],
-              "defaultType": "int",   // Specifies what types to put in the dropdown
-            }
-          ],
-          "output": "int",
+
+// Blockly.Blocks.variables_get_C = {
+//     init: function() {
+//         this.jsonInit(
+//          {
+//           "message0": "get %1 %2",
+//           "args0": [
+//           {
+//                           "type": "field_dropdown",
+//                           "name": "types",
+//                           "options": Blockly.Types.C_DataTypes,
+//                     },
+//             {
+//               "type": "field_variable",
+//               "name": "VAR",
+//               "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+//               "variableTypes": ["int"],
+//               "defaultType": "int",   // Specifies what types to put in the dropdown
+//             }
+//           ],
+//           "output": "int",
           
-        });
+//         });
 
-    },
-    onchange: changeVariables
-}
+//     },
+//     onchange: changeVariables
+// }
 
 
-Blockly.Blocks.variables_set_C = {
-    init: function() {
-        this.jsonInit(
-                {
-                  "message0": "change int %1 %2 %3",
-                  "args0": [
-                       {
-                            "type": "field_dropdown",
-                            "name": "types",
-                            "options": Blockly.Types.C_DataTypes,
-                     },
-                    {
-                      "type": "field_variable",
-                      "name": "VAR",
-                      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-                      "variableTypes": ["int"],
-                      "defaultType": "int",   // Specifies what types to put in the dropdown
-                    },
-                    {
-                      "type": "input_value",
-                      "name": "VALUE",    // Checks that the input value is of type "Panda"
-                    }
-                  ],
-                  "previousStatement": null,
-                  "nextStatement": null,
-                });
-    },
-    onchange: changeVariables
-}
+Blockly.Blocks.variableC_get={
+	init: function() {
+	    this.appendDummyInput()
+	    	.appendField("get variable of type:")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(" name:")
+	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	    this.setOutput(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: changeVariables,
+};
+
+// Blockly.Blocks.variables_set_C = {
+//     init: function() {
+//         this.jsonInit(
+//                 {
+//                   "message0": "change int %1 %2 %3",
+//                   "args0": [
+//                        {
+//                             "type": "field_dropdown",
+//                             "name": "types",
+//                             "options": Blockly.Types.C_DataTypes,
+//                      },
+//                     {
+//                       "type": "field_variable",
+//                       "name": "VAR",
+//                       "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+//                       "variableTypes": ["int"],
+//                       "defaultType": "int",   // Specifies what types to put in the dropdown
+//                     },
+//                     {
+//                       "type": "input_value",
+//                       "name": "VALUE",    // Checks that the input value is of type "Panda"
+//                     }
+//                   ],
+//                   "previousStatement": null,
+//                   "nextStatement": null,
+//                 });
+//     },
+//     onchange: changeVariables
+// }
 
 Blockly.Types.pointers=[["*","*"],["**","**"],["***","***"],["****","****"]];
-
-Blockly.Blocks.pointers_declare = {
-    init: function() {
-        this.jsonInit({
-          "message0": " declare  pointer %1 %2 %3 %4",
-          "args0": [
-            {
-                  "type": "field_dropdown",
-                  "name": "types",
-                  "options": Blockly.Types.C_DataTypes,
-            },
-            {
-                  "type": "field_dropdown",
-                  "name": "pointers",
-                  "options": Blockly.Types.pointers,
-            },
-            {
-              "type": "field_variable",
-              "name": "VAR",
-              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-              "variableTypes": ["int *"],
-              "defaultType": "int *", 
-            },
-            {
-              "type": "input_value",
-              "name": "VALUE",
-            }
-          ],
-          "previousStatement": null,
-          "nextStatement": null,
-        });
-    },
-    onchange: changeVariables
+Blockly.Blocks.pointers_declare={
+	init: function() {
+	    this.appendValueInput("VALUE")
+	        .setCheck(null)
+	        .appendField("declare pointer of  type:")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(" dimension:")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.pointers), "dimension")
+	        .appendField(" name")
+	        .appendField(new Blockly.FieldVariable(null,null,["int *"],"int *",null), "VAR");
+	    this.setPreviousStatement(true, null);
+    	this.setNextStatement(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: changeVariables,
 };
 
-Blockly.Blocks.pointers_get_C = {
-    init: function() {
-        this.jsonInit(
-         {
-          "message0": "get %1 %2 %3",
-          "args0": [
-          {
-                          "type": "field_dropdown",
-                          "name": "types",
-                          "options": Blockly.Types.C_DataTypes,
-            },
-            {
-                  "type": "field_dropdown",
-                  "name": "pointers",
-                  "options": Blockly.Types.pointers,
-            },
-            {
-              "type": "field_variable",
-              "name": "VAR",
-              "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-              "variableTypes": ["int *"],
-              "defaultType": "int *",
-                 }
-          ],
-          "output": "int",
-          
-        });
+// Blockly.Blocks.pointers_declare = {
+//     init: function() {
+//         this.jsonInit({
+//           "message0": " declare  pointer %1 %2 %3 %4",
+//           "args0": [
+//             {
+//                   "type": "field_dropdown",
+//                   "name": "types",
+//                   "options": Blockly.Types.C_DataTypes,
+//             },
+//             {
+//                   "type": "field_dropdown",
+//                   "name": "pointers",
+//                   "options": Blockly.Types.pointers,
+//             },
+//             {
+//               "type": "field_variable",
+//               "name": "VAR",
+//               "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+//               "variableTypes": ["int *"],
+//               "defaultType": "int *", 
+//             },
+//             {
+//               "type": "input_value",
+//               "name": "VALUE",
+//             }
+//           ],
+//           "previousStatement": null,
+//           "nextStatement": null,
+//         });
+//     },
+//     onchange: changeVariables
+// };
 
-    },
-    onchange: changeVariables
-}
+Blockly.Blocks.pointers_get_C={
+	init: function() {
+	    this.appendDummyInput()
+	    	.appendField("get pointers of  type:")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(new Blockly.FieldDropdown(Blockly.Types.pointers), "dimension")
+	        .appendField(new Blockly.FieldVariable(null,null,["int *"],"int *",null), "VAR");
+	    this.setOutput(true, null);
+	    this.setColour(230);
+	 this.setTooltip("");
+	 this.setHelpUrl("");
+	  },
+	onchange: changeVariables,
+};
+// Blockly.Blocks.pointers_get_C = {
+//     init: function() {
+//         this.jsonInit(
+//          {
+//           "message0": "get %1 %2 %3",
+//           "args0": [
+//           {
+//                           "type": "field_dropdown",
+//                           "name": "types",
+//                           "options": Blockly.Types.C_DataTypes,
+//             },
+//             {
+//                   "type": "field_dropdown",
+//                   "name": "pointers",
+//                   "options": Blockly.Types.pointers,
+//             },
+//             {
+//               "type": "field_variable",
+//               "name": "VAR",
+//               "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+//               "variableTypes": ["int *"],
+//               "defaultType": "int *",
+//                  }
+//           ],
+//           "output": "int",
+          
+//         });
+
+//     },
+//     onchange: changeVariables
+// }
 
 Blockly.Blocks.pointers_set_C = {
     init: function() {
@@ -2809,7 +2873,7 @@ var arrOnChange= function (changeEvent){
                 {
                     this.getInput("VALUE").removeField("VAR");
                     var a =new Blockly.FieldVariable(null,null, [newValue],newValue, null);
-                    this.getInput("VALUE").insertFieldAt(2,a,"VAR");
+                    this.getInput("VALUE").insertFieldAt(5,a,"VAR");
                     //this.getInput("VALUE").setCheck([changeEvent.newValue]);
                 }
                 else {
@@ -2833,20 +2897,25 @@ var arrOnChange= function (changeEvent){
         		input.removeField(size+i);
         	var i=0;
         	for( i=1;i<=dimension;i++)
-				input.insertFieldAt(2+i,new Blockly.FieldNumber(0, 0, Infinity, 1), size+i);
+				input.insertFieldAt(6+i,new Blockly.FieldNumber(0, 0, Infinity, 1), size+i);
 			for( ;i<=3;i++)
-				input.insertFieldAt(2+i,new Blockly.FieldLabelSerializable(""), size+i);
+				input.insertFieldAt(6+i,new Blockly.FieldLabelSerializable(""), size+i);
         }
 
 
 }
+
 Blockly.Blocks.array={
 	init: function() {
 	    this.appendValueInput("VALUE")
 	        .setCheck(null)
+	        .appendField("declare array of  type:")
 	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(" dimension:")
 	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
+	        .appendField(" name")
 	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	        .appendField(" size:")
 	        .appendField(new Blockly.FieldNumber(5, 1, Infinity, 1), "size1")
 	        .appendField(new Blockly.FieldLabelSerializable(""), "size2")
 	        .appendField(new Blockly.FieldLabelSerializable(""), "size3");
@@ -2863,6 +2932,7 @@ Blockly.Blocks.array={
 Blockly.Blocks.array_get={
 	init: function() {
 	    this.appendDummyInput()
+	    	.appendField("get array of  type:")
 	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
 	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
 	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
@@ -2880,8 +2950,11 @@ Blockly.Blocks.array_get={
 Blockly.Blocks.array_get_baseAddress={
 	init: function() {
 	    this.appendDummyInput()
+	    	.appendField("get base address of type:")
 	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
+	        .appendField(" dimension:")
 	        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"]]), "dimension")
+	        .appendField(" name:")
 	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
 	    this.setOutput(true, null);
 	    this.setColour(230);

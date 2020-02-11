@@ -72,7 +72,7 @@ Blockly.C.init = function(a) {
     //console.log(mapVar);
 
     Object.keys(mapVar).forEach((key,index)=>{
-        if(key.indexOf("[]")==-1)
+        //if(key.indexOf("[]")==-1)
         dec+= key+" "+mapVar[key].join(",")+";\n";
     });
         console.log(a);
@@ -890,18 +890,19 @@ Blockly.C.variables_declare = function(a) {
     return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME
         ) + " = " + b + ";\n"
 };
+Blockly.C.variableC_set=function(a) {
+      var b = Blockly.C.valueToCode(a, "VALUE", Blockly.C.ORDER_ASSIGNMENT) || "0";
+    return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME
+        ) + " = " + b + ";\n"
+};
 
-Blockly.C.variables_set_C=Blockly.C.variables_declare;
-
-Blockly.C.variables_get_C = function(a) {
+Blockly.C.variableC_get = function(a) {
     return [Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME), Blockly.C.ORDER_ATOMIC]
 };
 
 Blockly.C.pointers_declare=Blockly.C.variables_declare;
 
-Blockly.C.pointers_get_C=Blockly.C.variables_get_C;
-
-Blockly.C.pointers_set_C=Blockly.C.variables_set_C;
+Blockly.C.pointers_get_C=Blockly.C.variableC_get;
 
 Blockly.C.valueAt = function(block) {
   var value_valueof = Blockly.C.valueToCode(block, 'valueOf', Blockly.C.ORDER_ATOMIC);
@@ -943,3 +944,5 @@ Blockly.C.array_get=function(a){
 Blockly.C.array_get_baseAddress = function(a) {
     return [Blockly.C.variableDB_.getName(a.getFieldValue("VAR"), Blockly.VARIABLE_CATEGORY_NAME), Blockly.C.ORDER_ATOMIC]
 };
+
+Blockly.C.variableC_set= Blockly.C.variables_declare;

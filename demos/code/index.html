@@ -81,9 +81,8 @@
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Typed variable">
       <label text="Variable"></label>
-      <block type="variables_declare"></block>
-      <block type="variables_get_C"></block>
-      <block type="variables_set_C"></block>
+      <block type="variableC_set"></block>
+      <block type="variableC_get"></block>
       <label text="Array"></label>
       <block type="array"></block>
       <block type="array_get"></block>
@@ -91,7 +90,6 @@
       <label text="Pointers"></label>
       <block type="pointers_declare"></block>
       <block type="pointers_get_C"></block>
-      <block type="pointers_set_C"></block>
       <block type="valueAt"></block>
       <block type="addressOf"></block>
     </category>
@@ -332,7 +330,15 @@
       		</block>
     	</value>
   	 </block>
-      <block type="lists_isEmpty"></block>
+     <block type="lists_isEmpty" id="O|wy5~_Dr0F2fl#N(!P!" x="163" y="238">
+    	<value name="VALUE">
+      		<block type="array_get_baseAddress" id="?]Bsf2Ys@pR[7wm`M@$!">
+        		<field name="types">int</field>
+        		<field name="dimension">1</field>
+        		<field name="VAR" id="$+U!Dexd[DT~VRoo.%^-" variabletype="int[]">item</field>
+      		</block>
+    	</value>
+  	  </block>
       <block type="lists_indexOf">
         <value name="VALUE">
           <block type="variables_get">
