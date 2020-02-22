@@ -2554,8 +2554,10 @@ Blockly.Extensions.registerMixin("contextMenu_variableDynamicSetterGetter", Bloc
 
 var changeVariables=function(changeEvent){
         var newValue=this.getFieldValue("types");
-         if(changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers" || changeEvent.name=="dimension"))
+         if(changeEvent.blockId==this.id&&changeEvent.type=="change"&&(changeEvent.name=="types"|| changeEvent.name=="pointers" || changeEvent.name=="dimension"))
         {
+        		//console.log(this.id);
+        		console.log(changeEvent.blockId==this.id);
                 if(this.getFieldValue("pointers"))
                     newValue+=this.getFieldValue("pointers");
                 if(this.getFieldValue("dimension"))
@@ -2657,7 +2659,7 @@ Blockly.Blocks.variableC_get={
 	    	.appendField("get variable of type:")
 	        .appendField(new Blockly.FieldDropdown(Blockly.Types.C_DataTypes), "types")
 	        .appendField(" name:")
-	        .appendField(new Blockly.FieldVariable(null,null,["int[]"],"int[]",null), "VAR")
+	        .appendField(new Blockly.FieldVariable(null,null,["int"],"int",null), "VAR")
 	    this.setOutput(true, null);
 	    this.setColour(230);
 	 this.setTooltip("");
@@ -2764,7 +2766,7 @@ Blockly.Blocks.pointers_get_C={
 	  },
 	onchange: changeVariables,
 };
-// Blockly.Blocks.pointers_get_C = {
+ //Blockly.Blocks.pointers_get_C = {
 //     init: function() {
 //         this.jsonInit(
 //          {
